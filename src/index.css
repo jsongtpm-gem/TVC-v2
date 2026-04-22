@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-source-serif: 'Source Serif 4', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-source-serif);
+  background-color: #F5EFE0;
+  color: #2C1810;
+  font-size: 1rem;
+  line-height: 1.65;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.prose-wine h1, .prose-wine h2, .prose-wine h3 {
+  font-family: var(--font-playfair);
+  color: #4e1d28;
+}
+.prose-wine p { line-height: 1.8; margin-bottom: 1.5rem; }
+.prose-wine ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose-wine ul li { margin-bottom: 0.375rem; }
+
+.divider-gold {
+  border: none;
+  border-top: 1px solid #9B7D4C;
+  opacity: 0.4;
+  margin: 2rem 0;
+}
+
+.tiptap-editor {
+  border: 1px solid #E8DCC8;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  min-height: 200px;
+  background: white;
+  font-family: var(--font-source-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  outline: none;
+}
+.tiptap-editor:focus { border-color: #6B2737; box-shadow: 0 0 0 2px rgba(107,39,55,0.15); }
+.tiptap-editor p { margin-bottom: 0.75rem; }
+.tiptap-editor ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap-editor ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap-editor h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; font-family: var(--font-playfair); }
+.tiptap-editor h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; font-family: var(--font-playfair); }
+.tiptap-editor strong { font-weight: 600; }
+.tiptap-editor em { font-style: italic; }
+.tiptap-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left; color: #aaa; pointer-events: none; height: 0;
+}
