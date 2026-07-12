@@ -3,6 +3,10 @@ main = "src/index.js"
 compatibility_date = "2024-09-23"
 workers_dev = true
 
+[vars]
+BLOG_PUBLIC_URL = "https://pub-fadea5a747054af085acb80790544ec2.r2.dev"
+EVENTS_PUBLIC_URL = "https://pub-c2f389a0273d4bb0a1f1f4ad3cb32797.r2.dev"
+
 [[r2_buckets]]
 binding = "BLOG_BUCKET"
 bucket_name = "torontotvcblog"
@@ -10,3 +14,23 @@ bucket_name = "torontotvcblog"
 [[r2_buckets]]
 binding = "EVENTS_BUCKET"
 bucket_name = "torontotvc"
+
+# --- Staging environment ---
+# Deploy with: wrangler deploy --env staging
+# Set its secret with: wrangler secret put UPLOAD_SECRET --env staging
+# Requires two staging R2 buckets to exist first (create + make public in the
+# Cloudflare dashboard, then paste their pub-*.r2.dev URLs below).
+[env.staging]
+name = "tvc-upload-staging"
+
+[env.staging.vars]
+BLOG_PUBLIC_URL = "https://REPLACE-WITH-STAGING-BLOG-BUCKET.r2.dev"
+EVENTS_PUBLIC_URL = "https://REPLACE-WITH-STAGING-EVENTS-BUCKET.r2.dev"
+
+[[env.staging.r2_buckets]]
+binding = "BLOG_BUCKET"
+bucket_name = "torontotvcblog-staging"
+
+[[env.staging.r2_buckets]]
+binding = "EVENTS_BUCKET"
+bucket_name = "torontotvc-staging"

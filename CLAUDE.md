@@ -51,7 +51,7 @@ There are no tests. Build (`npm run build`) is the type-check gate.
 
 ## Database Tables
 
-Schema baseline is in `supabase-schema.sql`. Additional columns added via migrations (run in Supabase Dashboard → SQL Editor):
+Schema is defined by the numbered files in `supabase/migrations/` (source of truth going forward — see **Environments** below for how to apply them). `supabase-schema.sql` at the repo root is the original baseline snapshot and is superseded by `supabase/migrations/0001_baseline.sql`.
 
 | Table | Notable columns |
 |---|---|
@@ -61,10 +61,26 @@ Schema baseline is in `supabase-schema.sql`. Additional columns added via migrat
 | `blog_images` | `post_id, url, name, sort_order` — multiple images per post |
 | `faqs` | `question, answer, sort_order` |
 | `board_members` | `name, role, bio, sort_order, photo` |
-| `documents` | PDF files (annual reports, bylaws) with `type, name, url, year` |
+| `documents` | PDF files (annual reports, bylaws) with `section, name, url, uploaded_at` |
 
 **RPC functions** (SECURITY DEFINER, callable by anon):
 - `increment_post_views(post_id INTEGER)` — increments `blog_posts.views`
 - `update_post_likes(post_id INTEGER, delta INTEGER) RETURNS integer` — increments/decrements `blog_posts.likes`, returns new count
 
 Blog like state is persisted in `localStorage` under key `tvc_liked_posts` (array of post IDs).
+
+## Environments
+
+There are two fully isolated environments, each with its own Supabase project and Cloudflare Worker/R2 buckets:
+
+| | Production | Staging |
+|---|---|---|
+| Git branch | `main` | `staging` |
+| Vercel | Production deploys (`vercel --prod --yes` or auto on push to `main`) | Preview Deployments (auto on PRs/pushes to `staging`), using Preview-scoped env vars in the Vercel dashboard |
+| Supabase | prod project | separate `tvc-v2-staging` project |
+| Upload Worker | `tvc-upload` (`workers/upload/wrangler.toml`, default env) | `tvc-upload-staging` (`[env.staging]` block, deploy with `wrangler deploy --env staging`) |
+| R2 buckets | `torontotvcblog`, `torontotvc` | `torontotvcblog-staging`, `torontotvc-staging` |
+
+**Schema changes:** add a new numbered file to `supabase/migrations/` (e.g. `0006_*.sql`), run it against the staging Supabase project's SQL Editor first, verify, then run the same file against production. Do not make ad hoc schema edits directly in the dashboard without also committing the migration file — `supabase/migrations/` must stay the source of truth.
+
+**Local dev:** copy `.env.example` to `.env.local` and fill in either prod or staging credentials depending on which backend you want to develop against.
