@@ -51,7 +51,7 @@ There are no tests. Build (`npm run build`) is the type-check gate.
 
 ## Database Tables
 
-Schema is defined by the numbered files in `supabase/migrations/` (source of truth going forward — see **Environments** below for how to apply them). `supabase-schema.sql` at the repo root is the original baseline snapshot and is superseded by `supabase/migrations/0001_baseline.sql`.
+Schema is defined by the numbered files in `supabase/migrations/` (source of truth going forward — see **Schema changes** below). `supabase-schema.sql` at the repo root is the original baseline snapshot and is superseded by `supabase/migrations/0001_baseline.sql`.
 
 | Table | Notable columns |
 |---|---|
@@ -69,18 +69,6 @@ Schema is defined by the numbered files in `supabase/migrations/` (source of tru
 
 Blog like state is persisted in `localStorage` under key `tvc_liked_posts` (array of post IDs).
 
-## Environments
+**Schema changes:** add a new numbered file to `supabase/migrations/` (e.g. `0006_*.sql`) and run it via the Supabase Dashboard → SQL Editor against the one production project. Do not make ad hoc schema edits directly in the dashboard without also committing the migration file — `supabase/migrations/` must stay the source of truth so the schema can be reliably reconstructed or reviewed later.
 
-There are two fully isolated environments, each with its own Supabase project and Cloudflare Worker/R2 buckets:
-
-| | Production | Staging |
-|---|---|---|
-| Git branch | `main` | `staging` |
-| Vercel | Production deploys (`vercel --prod --yes` or auto on push to `main`) | Preview Deployments (auto on PRs/pushes to `staging`), using Preview-scoped env vars in the Vercel dashboard |
-| Supabase | prod project | separate `tvc-v2-staging` project |
-| Upload Worker | `tvc-upload` (`workers/upload/wrangler.toml`, default env) | `tvc-upload-staging` (`[env.staging]` block, deploy with `wrangler deploy --env staging`) |
-| R2 buckets | `torontotvcblog`, `torontotvc` | `torontotvcblog-staging`, `torontotvc-staging` |
-
-**Schema changes:** add a new numbered file to `supabase/migrations/` (e.g. `0006_*.sql`), run it against the staging Supabase project's SQL Editor first, verify, then run the same file against production. Do not make ad hoc schema edits directly in the dashboard without also committing the migration file — `supabase/migrations/` must stay the source of truth.
-
-**Local dev:** copy `.env.example` to `.env.local` and fill in either prod or staging credentials depending on which backend you want to develop against.
+**Local dev / collaborators:** copy `.env.example` to `.env.local` and fill in the production credentials (there is a single Supabase project and a single upload Worker — no staging environment). Vercel's automatic Preview Deployments (one per PR/branch push) can still be used to review UI changes before merging to `main`, but note they read/write the same production Supabase data and R2 buckets, so avoid destructive admin testing (deleting posts, bulk edits) on a preview deployment — do that kind of testing locally instead.

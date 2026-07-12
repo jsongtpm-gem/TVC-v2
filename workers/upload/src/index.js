@@ -22,7 +22,9 @@ export default {
     // /blog/* → blog bucket, /events/* → events bucket
     const isBlog = url.pathname.startsWith('/blog')
     const bucket = isBlog ? env.BLOG_BUCKET : env.EVENTS_BUCKET
-    const publicBase = isBlog ? env.BLOG_PUBLIC_URL : env.EVENTS_PUBLIC_URL
+    const publicBase = isBlog
+      ? 'https://pub-fadea5a747054af085acb80790544ec2.r2.dev'
+      : 'https://pub-c2f389a0273d4bb0a1f1f4ad3cb32797.r2.dev'
 
     let formData
     try {
