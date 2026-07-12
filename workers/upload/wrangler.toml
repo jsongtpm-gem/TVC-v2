@@ -1,0 +1,12 @@
+name = "tvc-upload"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+workers_dev = true
+
+[[r2_buckets]]
+binding = "BLOG_BUCKET"
+bucket_name = "torontotvcblog"
+
+[[r2_buckets]]
+binding = "EVENTS_BUCKET"
+bucket_name = "torontotvc"

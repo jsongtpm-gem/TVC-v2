@@ -9,7 +9,6 @@ import AdminNav from './components/admin/AdminNav'
 import Home from './pages/site/Home'
 import About from './pages/site/About'
 import Events from './pages/site/Events'
-import EventDetail from './pages/site/EventDetail'
 import Blog from './pages/site/Blog'
 import BlogPost from './pages/site/BlogPost'
 import Membership from './pages/site/Membership'
@@ -66,7 +65,7 @@ export default function App() {
         <Route path="/" element={<SiteLayout><Home /></SiteLayout>} />
         <Route path="/about" element={<SiteLayout><About /></SiteLayout>} />
         <Route path="/events" element={<SiteLayout><Events /></SiteLayout>} />
-        <Route path="/events/:id" element={<SiteLayout><EventDetail /></SiteLayout>} />
+        <Route path="/events/:id" element={<Navigate to="/events" replace />} />
         <Route path="/blog" element={<SiteLayout><Blog /></SiteLayout>} />
         <Route path="/blog/:slug" element={<SiteLayout><BlogPost /></SiteLayout>} />
         <Route path="/membership" element={<SiteLayout><Membership /></SiteLayout>} />

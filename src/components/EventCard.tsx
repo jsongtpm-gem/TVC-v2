@@ -9,7 +9,7 @@ export default function EventCard({ event }: { event: Event }) {
   const year = dateObj.getFullYear()
 
   return (
-    <Link to={`/events/${event.id}`} className="group block">
+    <Link to="/events" className="group block">
       <article className="flex gap-5 bg-white border border-ivory-300 rounded-sm p-5 shadow-sm hover:shadow-md hover:border-gold-400 transition-all duration-200">
         <div className="flex-shrink-0 w-14 text-center">
           <div className="bg-burgundy-700 text-white rounded-t-sm px-2 py-1 text-xs tracking-widest uppercase">{month}</div>

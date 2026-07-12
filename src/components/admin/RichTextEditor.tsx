@@ -1,19 +1,33 @@
 import { useEditor, EditorContent } from '@tiptap/react'
+import { useEffect, useRef } from 'react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 
 interface Props { content: string; onChange: (html: string) => void; placeholder?: string }
 
 export default function RichTextEditor({ content, onChange, placeholder }: Props) {
+  // Only seed content into the editor once (on first non-empty value).
+  // After that, the editor is uncontrolled — onChange is the source of truth.
+  // Sections unmount/remount on collapse so reopening always reinitialises.
+  const hasInitialized = useRef(false)
+
   const editor = useEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({ placeholder: placeholder ?? 'Start writing…' }),
     ],
-    content,
+    content: '',
     immediatelyRender: false,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
   })
+
+  useEffect(() => {
+    if (!editor || hasInitialized.current) return
+    if (content) {
+      hasInitialized.current = true
+      editor.commands.setContent(content, { emitUpdate: false })
+    }
+  }, [content, editor])
 
   return (
     <div>

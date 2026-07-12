@@ -6,12 +6,12 @@ import Logo from '../Logo'
 const sections = [
   { href: '/admin', label: 'Dashboard', icon: '⊞' },
   { href: '/admin/home', label: 'Home Page', icon: '⌂' },
-  { href: '/admin/about', label: 'About', icon: '◉' },
   { href: '/admin/events', label: 'Events', icon: '◷' },
   { href: '/admin/membership', label: 'Membership', icon: '✦' },
   { href: '/admin/blog', label: 'Blog', icon: '✎' },
-  { href: '/admin/faqs', label: 'FAQs', icon: '?' },
   { href: '/admin/contact', label: 'Contact', icon: '✉' },
+  { href: '/admin/about', label: 'About', icon: '◉' },
+  { href: '/admin/faqs', label: 'FAQs', icon: '?' },
   { href: '/admin/settings', label: 'Settings', icon: '⚙' },
 ]
 

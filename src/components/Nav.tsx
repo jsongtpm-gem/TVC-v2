@@ -4,12 +4,12 @@ import Logo from './Logo'
 
 const links = [
   { to: '/',           label: 'Home' },
-  { to: '/about',      label: 'About' },
   { to: '/events',     label: 'Events' },
   { to: '/membership', label: 'Membership' },
-  { to: '/blog',       label: 'News & Tastings' },
-  { to: '/faqs',       label: 'FAQs' },
+  { to: '/blog',       label: 'Blog' },
   { to: '/contact',    label: 'Contact' },
+  { to: '/about',      label: 'About' },
+  { to: '/faqs',       label: 'FAQs' },
 ]
 
 export default function Nav() {
